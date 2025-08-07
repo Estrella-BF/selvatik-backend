@@ -1,0 +1,37 @@
+import express, { NextFunction, Request, Response } from 'express';
+import 'dotenv/config';
+import { categoriesRouter } from './routes/categories-route';
+import connectDB from './config/database';
+
+/* import express, { json } from 'express';
+import { configurationRouter, reservationsRouter } from "./api/routes/index.js"; */
+const PORT = process.env.PORT;
+const app = express();
+
+
+// por demo
+import cors from 'cors';
+
+// app.use(bodyParser.json())
+app.use(cors());
+/* app.use(json()); */
+
+// Connect to MongoDB
+connectDB();
+
+// ROUTES USER
+app.use('/categories', categoriesRouter);
+/* 
+app.use('/configuration', configurationRouter);
+   */
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+    // Handle the error
+    res.status(err.status || 500).json({ error: err.message });
+});
+app.get('/favicon.ico', (_req: Request, res: Response) => res.status(204));
+
+app.get('/', (_req: Request, res: Response) => res.send('hello!'));   
+
+app.listen(PORT, () => {
+    console.log(`Server in running on port: ${PORT}`)
+});
