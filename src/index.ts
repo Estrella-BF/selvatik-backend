@@ -1,10 +1,10 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { json, NextFunction, Request, Response } from 'express';
 import 'dotenv/config';
 import connectDB from './config/database';
 import { categoriesRouter } from './routes/categories-route';
 import { productsRouter } from './routes/products-route';
 
-/* import express, { json } from 'express';
+/* 
 import { configurationRouter, reservationsRouter } from "./api/routes/index.js"; */
 const PORT = process.env.PORT;
 const app = express();
@@ -12,10 +12,11 @@ const app = express();
 
 // por demo
 import cors from 'cors';
+import { ordersRouter } from './routes/orders-route';
 
 // app.use(bodyParser.json())
 app.use(cors());
-/* app.use(json()); */
+app.use(json());
 
 // Connect to MongoDB
 connectDB();
@@ -23,6 +24,7 @@ connectDB();
 // ROUTES USER
 app.use('/categories', categoriesRouter);
 app.use('/products', productsRouter);
+app.use('/orders', ordersRouter);
 /* 
 app.use('/configuration', configurationRouter);
    */

@@ -34,10 +34,9 @@ export type ProductType = {
   totalPrice?: number;
 };
 
-export const getAllProductsController = async(request: Request, response: Response) => {
+export const getProductsController = async(request: Request, response: Response) => {
   try {
     const { category_id, search } = request.query;
-        console.log('**** QUERY params:', request.query)
 
     if (category_id) {
       const allProductsByCategoryId = await Products.find({category_id});
