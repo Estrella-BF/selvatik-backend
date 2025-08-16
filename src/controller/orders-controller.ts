@@ -1,16 +1,53 @@
 import { Request, Response } from 'express';
 import Orders from '../model/Orders';
+import { StockListType } from './products-controller';
+
+export type ReceiptFileType = {
+  name: string;
+  type: string;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  buffer: any;
+};
+
+export type ProductToBuy = {
+  _id: string,
+  stock: StockListType[],
+  title: string,
+  totalPrice: number;
+};
+
+export type CustomerPurchaseType = {
+  _id?: string;
+  customerName: string;
+  customerSucursal: string;
+  customerCardID: number;
+  customerPhone: number;
+  receiptFile: ReceiptFileType;
+  productsToBuy: ProductToBuy[];
+  isPaid: boolean;
+  isDelivered: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+};
 
 export const getOrdersController = async(request: Request, response: Response) => {
   try {
-    console.log('--GET orders:')
-  /*   const { category_id, search } = request.query; */
-        console.log('**** GET QUERY params:', request.query)
-    const categoryResponse = await Orders.find();
-    return response.json(categoryResponse);
+    const { isPaid, isDelivered } = request.query;
+
+    if (isPaid) {
+      console.log('** IS PAID SEARCH');
+      const purchases: CustomerPurchaseType[] = await Orders.find({isPaid: false});
+      return response.json(purchases);
+    } else if (isDelivered) {
+      console.log('** IS DELIVERY SEARCH');
+      const purchases: CustomerPurchaseType[] = await Orders.find({isDelivered: false});
+      return response.json(purchases);
+    } else {
+      const categoryResponse = await Orders.find();
+      return response.json(categoryResponse);
+    }
   } catch(error: any) {
-    console.log('--orders ERROR:', error)
-     return response.status(error.status || 500).json({ error: error.message });
+    return response.status(error.status || 500).json({ error: error.message });
   }
 };
 
