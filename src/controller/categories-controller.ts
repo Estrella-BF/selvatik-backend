@@ -33,8 +33,6 @@ export const updateCategoryController = async(request: Request, response: Respon
      return response.status(error.status || 500).json({ error: error.message });
   }
 };
-/* 
-
 
 export const deleteCategoryController = async(request: Request, response: Response) => {
   try {
@@ -45,4 +43,3 @@ export const deleteCategoryController = async(request: Request, response: Respon
      return response.status(error.status || 500).json({ error: error.message });
   }
 };
- */
