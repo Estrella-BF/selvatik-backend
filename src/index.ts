@@ -1,7 +1,8 @@
 import express, { NextFunction, Request, Response } from 'express';
 import 'dotenv/config';
-import { categoriesRouter } from './routes/categories-route';
 import connectDB from './config/database';
+import { categoriesRouter } from './routes/categories-route';
+import { productsRouter } from './routes/products-route';
 
 /* import express, { json } from 'express';
 import { configurationRouter, reservationsRouter } from "./api/routes/index.js"; */
@@ -21,6 +22,7 @@ connectDB();
 
 // ROUTES USER
 app.use('/categories', categoriesRouter);
+app.use('/products', productsRouter);
 /* 
 app.use('/configuration', configurationRouter);
    */
