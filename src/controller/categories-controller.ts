@@ -1,26 +1,30 @@
 import { Request, Response } from 'express';
 import Categories from "../model/Categories";
 
+export type CreateCategoryType = {
+  category_name: string;
+}
+
 export const getAllCategoriesController = async(_req: Request, response: Response) => {
   try {
-      const data = await Categories.find();
-      return response.json(data);
+    const data = await Categories.find();
+    return response.json(data);
   } catch(error: any) {
-      console.log('--al categories ERROR: ', error)
-     return response.status(error.status || 500).json({ error: error.message });
+    return response.status(error.status || 500).json({ error: error.message });
   }
 };
 
 export const createCategoryController = async(request: Request, response: Response) => {
   try {
-    const { category } = request.body;
-    const categoryResponse = await Categories.create({ name: category });
+    const { category_name } = request.body;
+    const categoryResponse = await Categories.create({ name: category_name });
     return response.json(categoryResponse);
   } catch(error: any) {
      return response.status(error.status || 500).json({ error: error.message });
   }
 };
 
+/* 
 export const updateCategoryController = async(request: Request, response: Response) => {
   try {
     const { name, _id } = request.body;
@@ -40,3 +44,4 @@ export const deleteCategoryController = async(request: Request, response: Respon
      return response.status(error.status || 500).json({ error: error.message });
   }
 };
+ */
