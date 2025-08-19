@@ -25,10 +25,8 @@ connectDB();
 app.use('/categories', categoriesRouter);
 app.use('/products', productsRouter);
 app.use('/orders', ordersRouter);
-/* 
-app.use('/configuration', configurationRouter);
-   */
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+
+app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
     // Handle the error
     res.status(err.status || 500).json({ error: err.message });
 });

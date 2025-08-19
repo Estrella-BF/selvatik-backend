@@ -53,15 +53,12 @@ export const getProductsController = async(request: Request, response: Response)
   }
 };
 
-/* 
-export const getProductsByCategoryId = async(request: Request, response: Response) => {
+export const createProductController = async(request: Request, response: Response) => {
   try {
-    console.log('**** PARAMS:', request.params)
-    const { category_id } = request.params;
-    console.log('---categoryId:', category_id)
- 
+    const body = request.body;
+    const categoryResponse = await Products.create(body);
+    return response.json(categoryResponse);
   } catch(error: any) {
      return response.status(error.status || 500).json({ error: error.message });
   }
 };
- */
