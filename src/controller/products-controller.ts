@@ -62,3 +62,14 @@ export const createProductController = async(request: Request, response: Respons
      return response.status(error.status || 500).json({ error: error.message });
   }
 };
+
+export const deleteProductController = async(request: Request, response: Response) => {
+  try {
+    const { id } = request.params;
+    await Products.findByIdAndDelete(id);
+    return response.status(200).json({ message: "Product deleted" });
+  } catch(error: any) {
+     return response.status(error.status || 500).json({ error: error.message });
+  }
+};
+
