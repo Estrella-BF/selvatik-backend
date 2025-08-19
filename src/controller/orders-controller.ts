@@ -51,6 +51,15 @@ export const getOrdersController = async(request: Request, response: Response) =
   }
 };
 
+export const createOrderController = async(request: Request, response: Response) => {
+  try {
+    const purchaseResponse = await Orders.create(request.body);
+    return response.status(200).json(purchaseResponse); 
+  } catch(error: any) {
+    return response.status(error.status || 500).json({ error: error.message });
+  }
+};
+
 export const updateOrderController = async(request: Request, response: Response) => {
   try {
     const { _id, isPaid, isDelivered } = request.body;
@@ -63,30 +72,6 @@ export const updateOrderController = async(request: Request, response: Response)
     const categoryResponse = await Orders.findByIdAndUpdate(_id, updateObjet, { new: true } );
     return response.status(200).json(categoryResponse); 
   } catch(error: any) {
-    console.log('--orders ERROR:', error)
-     return response.status(error.status || 500).json({ error: error.message });
+    return response.status(error.status || 500).json({ error: error.message });
   }
 };
-
-
-
-
-/* export const getAllProductsController = async(request: Request, response: Response) => {
-  try {
-    const { category_id, search } = request.query;
-        console.log('**** QUERY params:', request.query)
-
-    if (category_id) {
-      const allProductsByCategoryId = await Products.find({category_id});
-      return response.json(allProductsByCategoryId);
-    } else if (search) {
-      const allProductsFinded = await Products.find({title: search});
-      return response.json(allProductsFinded);
-    }
-    const categoryResponse = await Products.find();
-    return response.json(categoryResponse);
-  } catch(error: any) {
-    console.log('**error:', error)
-     return response.status(error.status || 500).json({ error: error.message });
-  }
-}; */
