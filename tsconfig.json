@@ -11,3 +11,10 @@
   "include": ["**/*.ts"],
   "exclude": ["dist"]
 }
+/*   "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "commonjs",
+    "target": "es2019",
+    "esModuleInterop": true
+  } */
