@@ -10,6 +10,7 @@ export const getAllCategoriesController = async(_req: Request, response: Respons
     const data = await Categories.find();
     return response.json(data);
   } catch(error: any) {
+    console.log('** error category:', error)
     return response.status(error.status || 500).json({ error: error.message });
   }
 };
