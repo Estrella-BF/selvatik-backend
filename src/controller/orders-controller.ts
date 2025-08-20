@@ -72,7 +72,7 @@ export const createOrderController = async(request: Request, response: Response)
     });
 
     await Promise.all(updatePromises);
-    return response.status(204);
+    return response.status(204).send();
   } catch(error: any) {
     return response.status(error.status || 500).json({ error: error.message });
   }
