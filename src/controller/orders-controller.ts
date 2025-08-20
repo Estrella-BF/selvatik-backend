@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import Orders from '../model/Orders';
 import { StockListType } from './products-controller';
+import Products from '../model/Products';
+import mongoose from 'mongoose';
 
 export type ReceiptFileType = {
   name: string;
@@ -53,8 +55,24 @@ export const getOrdersController = async(request: Request, response: Response) =
 
 export const createOrderController = async(request: Request, response: Response) => {
   try {
-    const purchaseResponse = await Orders.create(request.body);
-    return response.status(200).json(purchaseResponse); 
+    const body: CustomerPurchaseType = request.body;
+    const {productsToBuy} = body;
+
+    const updatePromises = productsToBuy.map(async(product) => {
+      const newStocks = product.stock.map(item => ({
+        color: item.color,
+        quantity: item.quantity - item.quantitySelected
+      }));
+      const product_id = new mongoose.Types.ObjectId(product._id);
+      const updatedProduct = await Products.findByIdAndUpdate(product_id, { stocks: newStocks } );
+      if (!updatedProduct) {
+        throw new Error(`Producto con ID ${product_id} no encontrado`);
+      }
+      return updatedProduct;
+    });
+
+    await Promise.all(updatePromises);
+    return response.status(204);
   } catch(error: any) {
     return response.status(error.status || 500).json({ error: error.message });
   }

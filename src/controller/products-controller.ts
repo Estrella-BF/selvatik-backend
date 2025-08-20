@@ -49,7 +49,7 @@ export const getProductsController = async(request: Request, response: Response)
     return response.json(categoryResponse);
   } catch(error: any) {
     console.log('**error:', error)
-     return response.status(error.status || 500).json({ error: error.message });
+    return response.status(error.status || 500).json({ error: error.message });
   }
 };
 
