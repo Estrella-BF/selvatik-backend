@@ -11,6 +11,7 @@ const getAllCategoriesController = async (_req, response) => {
         return response.json(data);
     }
     catch (error) {
+        console.log('** error category:', error);
         return response.status(error.status || 500).json({ error: error.message });
     }
 };

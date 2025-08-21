@@ -5,6 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateOrderController = exports.createOrderController = exports.getOrdersController = void 0;
 const Orders_1 = __importDefault(require("../model/Orders"));
+const Products_1 = __importDefault(require("../model/Products"));
+const mongoose_1 = __importDefault(require("mongoose"));
 const getOrdersController = async (request, response) => {
     try {
         const { isPaid, isDelivered } = request.query;
@@ -30,8 +32,22 @@ const getOrdersController = async (request, response) => {
 exports.getOrdersController = getOrdersController;
 const createOrderController = async (request, response) => {
     try {
-        const purchaseResponse = await Orders_1.default.create(request.body);
-        return response.status(200).json(purchaseResponse);
+        const body = request.body;
+        const { productsToBuy } = body;
+        const updatePromises = productsToBuy.map(async (product) => {
+            const newStocks = product.stock.map(item => ({
+                color: item.color,
+                quantity: item.quantity - item.quantitySelected
+            }));
+            const product_id = new mongoose_1.default.Types.ObjectId(product._id);
+            const updatedProduct = await Products_1.default.findByIdAndUpdate(product_id, { stocks: newStocks });
+            if (!updatedProduct) {
+                throw new Error(`Producto con ID ${product_id} no encontrado`);
+            }
+            return updatedProduct;
+        });
+        await Promise.all(updatePromises);
+        return response.status(204).send();
     }
     catch (error) {
         return response.status(error.status || 500).json({ error: error.message });
