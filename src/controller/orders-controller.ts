@@ -59,20 +59,27 @@ export const createOrderController = async(request: Request, response: Response)
     const {productsToBuy} = body;
 
     const updatePromises = productsToBuy.map(async(product) => {
-      const newStocks = product.stock.map(item => ({
-        color: item.color,
-        quantity: item.quantity - item.quantitySelected
-      }));
+      const newStocks = product.stock.map(item => {
+        const newQuantity = item.quantity - item.quantitySelected;
+        if (newQuantity < 0) {
+          throw new Error(`Stock can't be a negative value`);
+        }
+        return {
+          color: item.color,
+          quantity: item.quantity - item.quantitySelected
+        }
+      });
       const product_id = new mongoose.Types.ObjectId(product._id);
       const updatedProduct = await Products.findByIdAndUpdate(product_id, { stocks: newStocks } );
+
       if (!updatedProduct) {
         throw new Error(`Producto con ID ${product_id} no encontrado`);
       }
-      return updatedProduct;
+      return 'updatedProduct';
     });
-
     await Promise.all(updatePromises);
-    return response.status(204).send();
+    const newOrderResponse = await Orders.create(body);
+    return response.status(204).json(newOrderResponse);
   } catch(error: any) {
     return response.status(error.status || 500).json({ error: error.message });
   }
