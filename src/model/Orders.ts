@@ -78,6 +78,12 @@ const Orders = new Schema({
     type: [ ProducstsToBuy ],
     required: true,
   },
+  comments: {
+    type: String,
+    required: false,
+    default: '',
+    trim: true,
+  },
 }, {
   timestamps: true
 });

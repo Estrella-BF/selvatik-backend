@@ -110,6 +110,12 @@ const Orders = new mongoose_1.Schema({
         type: [ProducstsToBuy],
         required: true,
     },
+    comments: {
+        type: String,
+        required: false,
+        default: '',
+        trim: true,
+    },
 }, {
     timestamps: true
 });

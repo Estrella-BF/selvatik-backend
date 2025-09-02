@@ -86,15 +86,19 @@ export const createOrderController = async(request: Request, response: Response)
 
 export const updateOrderController = async(request: Request, response: Response) => {
   try {
-    const { _id, isPaid, isDelivered } = request.body;
+    const { _id, isPaid, isDelivered, comments } = request.body;
     let updateObjet = {};
     if (isPaid) {
       updateObjet = { isPaid: true };
     } else if (isDelivered) {
       updateObjet = { isDelivered: true };
+    } else if (comments) {
+      updateObjet = { comments };
+    } else {
+      throw new Error(`No se encuentra el valor a actualizar`);
     }
     const categoryResponse = await Orders.findByIdAndUpdate(_id, updateObjet, { new: true } );
-    return response.status(200).json(categoryResponse); 
+    return response.status(200).json(categoryResponse);
   } catch(error: any) {
     return response.status(error.status || 500).json({ error: error.message });
   }
