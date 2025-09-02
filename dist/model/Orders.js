@@ -60,6 +60,11 @@ const ProducstsToBuy = new mongoose_1.Schema({
         required: true,
         trim: true
     },
+    unitPrice: {
+        type: Number,
+        required: true,
+        trim: true
+    },
     totalPrice: {
         type: Number,
         required: true,
