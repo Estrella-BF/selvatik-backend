@@ -11,12 +11,10 @@ const getOrdersController = async (request, response) => {
     try {
         const { isPaid, isDelivered } = request.query;
         if (isPaid) {
-            console.log('** IS PAID SEARCH');
             const purchases = await Orders_1.default.find({ isPaid: false });
             return response.json(purchases);
         }
         else if (isDelivered) {
-            console.log('** IS DELIVERY SEARCH');
             const purchases = await Orders_1.default.find({ isDelivered: false });
             return response.json(purchases);
         }

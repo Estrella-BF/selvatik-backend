@@ -1,13 +1,25 @@
 import mongoose, { Schema } from 'mongoose';
-import { FileProductSchema, StockSchema } from './Products';
+import { FileProductSchema } from './Products';
+
+const ItemsSchema = new Schema({
+  color: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  quantitySelected: {
+    type: Number,
+    required: true
+  },
+});
 
 const ProducstsToBuy = new Schema({
   _id: {
     type: Schema.Types.ObjectId,
     required: true,
   },
-  stocks: {
-    type: [ StockSchema ],
+  items: {
+    type: [ ItemsSchema ],
     required: true
   },
   title: {

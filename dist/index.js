@@ -48,7 +48,6 @@ const app = (0, express_1.default)();
 // por demo
 const cors_1 = __importDefault(require("cors"));
 const orders_route_1 = require("./routes/orders-route");
-// app.use(bodyParser.json())
 app.use((0, cors_1.default)());
 app.use((0, express_1.json)());
 // Connect to MongoDB

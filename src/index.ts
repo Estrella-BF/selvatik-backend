@@ -14,13 +14,7 @@ const app = express();
 import cors from 'cors';
 import { ordersRouter } from './routes/orders-route';
 
-app.use(cors({
-  origin: [
-    "http://localhost:3000",    // desarrollo
-    "https://selvatika.pe"      // tu dominio en producción
-  ],
-  credentials: true
-}));
+app.use(cors());
 app.use(json());
 
 // Connect to MongoDB

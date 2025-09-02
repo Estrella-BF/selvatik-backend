@@ -35,13 +35,24 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const Products_1 = require("./Products");
+const ItemsSchema = new mongoose_1.Schema({
+    color: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    quantitySelected: {
+        type: Number,
+        required: true
+    },
+});
 const ProducstsToBuy = new mongoose_1.Schema({
     _id: {
         type: mongoose_1.Schema.Types.ObjectId,
         required: true,
     },
-    stocks: {
-        type: [Products_1.StockSchema],
+    items: {
+        type: [ItemsSchema],
         required: true
     },
     title: {
