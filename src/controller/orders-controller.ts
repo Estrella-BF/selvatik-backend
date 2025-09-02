@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import Orders from '../model/Orders';
-import { StockListType } from './products-controller';
 import Products from '../model/Products';
 import mongoose from 'mongoose';
+import { StockListType } from './products-controller';
 
 export type ReceiptFileType = {
   name: string;
@@ -14,6 +14,7 @@ export type ReceiptFileType = {
 export type ProductToBuy = {
   _id: string,
   stock: StockListType[],
+  items: StockListType[],
   title: string,
   totalPrice: number;
 };
@@ -37,11 +38,9 @@ export const getOrdersController = async(request: Request, response: Response) =
     const { isPaid, isDelivered } = request.query;
 
     if (isPaid) {
-      console.log('** IS PAID SEARCH');
       const purchases: CustomerPurchaseType[] = await Orders.find({isPaid: false});
       return response.json(purchases);
     } else if (isDelivered) {
-      console.log('** IS DELIVERY SEARCH');
       const purchases: CustomerPurchaseType[] = await Orders.find({isDelivered: false});
       return response.json(purchases);
     } else {
