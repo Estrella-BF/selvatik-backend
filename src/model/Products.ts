@@ -67,6 +67,10 @@ const ProductsSchema = new Schema({
     type: String,
     trim: true,
   },
+  url_threads: {
+    type: String,
+    trim: true,
+  },
   stocks: {
     type: [ StockSchema ],
     required: true

@@ -29,6 +29,7 @@ export type ProductType = {
   url_facebook?: string;
   url_instagram?: string;
   url_tiktok?: string;
+  url_threads?: string;
   stocks: StockListType[];
   totalItems?: number;
   totalPrice?: number;
