@@ -100,6 +100,10 @@ const ProductsSchema = new mongoose_1.Schema({
         type: String,
         trim: true,
     },
+    url_threads: {
+        type: String,
+        trim: true,
+    },
     stocks: {
         type: [exports.StockSchema],
         required: true
