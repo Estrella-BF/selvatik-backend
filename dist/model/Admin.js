@@ -32,38 +32,13 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importStar(require("express"));
-require("dotenv/config");
-const database_1 = __importDefault(require("./config/database"));
-const categories_route_1 = require("./routes/categories-route");
-const products_route_1 = require("./routes/products-route");
-/*
-import { configurationRouter, reservationsRouter } from "./api/routes/index.js"; */
-const PORT = process.env.PORT;
-const app = (0, express_1.default)();
-// por demo
-const cors_1 = __importDefault(require("cors"));
-const orders_route_1 = require("./routes/orders-route");
-const admin_route_1 = require("./routes/admin-route");
-app.use((0, cors_1.default)());
-app.use((0, express_1.json)());
-// Connect to MongoDB
-(0, database_1.default)();
-// ROUTES USER
-app.use('/admin', admin_route_1.adminRouter);
-app.use('/categories', categories_route_1.categoriesRouter);
-app.use('/products', products_route_1.productsRouter);
-app.use('/orders', orders_route_1.ordersRouter);
-app.use((err, _req, res, next) => {
-    // Handle the error
-    res.status(err.status || 500).json({ error: err.message });
+const mongoose_1 = __importStar(require("mongoose"));
+const AdminSchema = new mongoose_1.Schema({
+    password: {
+        type: String,
+        required: true,
+        trim: true,
+    }
 });
-app.get('/favicon.ico', (_req, res) => res.status(204));
-app.get('/', (_req, res) => res.send('hello!'));
-app.listen(PORT, () => {
-    console.log(`Server in running on port: ${PORT}`);
-});
+exports.default = mongoose_1.default.models.Admin || mongoose_1.default.model("Admin", AdminSchema, "admin");
