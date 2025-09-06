@@ -13,6 +13,7 @@ const app = express();
 // por demo
 import cors from 'cors';
 import { ordersRouter } from './routes/orders-route';
+import { adminRouter } from './routes/admin-route';
 
 app.use(cors());
 app.use(json());
@@ -21,6 +22,7 @@ app.use(json());
 connectDB();
 
 // ROUTES USER
+app.use('/admin', adminRouter);
 app.use('/categories', categoriesRouter);
 app.use('/products', productsRouter);
 app.use('/orders', ordersRouter);
