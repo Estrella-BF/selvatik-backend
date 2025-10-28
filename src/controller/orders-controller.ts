@@ -22,7 +22,7 @@ export type ProductToBuy = {
 export type CustomerPurchaseType = {
   _id?: string;
   customerName: string;
-  customerSucursal: string;
+  customerShippingAddress: string;
   customerCardID: number;
   customerPhone: number;
   receiptFile: ReceiptFileType;

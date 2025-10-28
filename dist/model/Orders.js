@@ -77,7 +77,7 @@ const Orders = new mongoose_1.Schema({
         required: true,
         trim: true,
     },
-    customerSucursal: {
+    customerShippingAddress: {
         type: String,
         required: true,
         trim: true,
