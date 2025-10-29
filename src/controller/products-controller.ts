@@ -5,6 +5,7 @@ export type StockListType = {
   color: string;
   quantity: number;
   quantitySelected: number | 0;
+  photo_URL: string | '';
 };
 
 export type BufferDataType = {

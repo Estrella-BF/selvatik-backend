@@ -11,6 +11,11 @@ export const StockSchema = new Schema({
     required: true,
     default: 0
   },
+  photo_URL: {
+    type: String,
+    required: true,
+    trim: true,
+  },
 });
 
 export const FileProductSchema = new Schema({
