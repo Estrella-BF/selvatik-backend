@@ -18,19 +18,14 @@ export const StockSchema = new Schema({
   },
 });
 
-export const FileProductSchema = new Schema({
+export const ImageSchema = new Schema({
   name: {
     type: String,
     required: true,
     trim: true,
   },
-  type: {
+  folder_path: {
     type: String,
-    required: true,
-    trim: true,
-  },
-  buffer: {
-    type: Buffer,
     required: true,
     trim: true,
   },
@@ -56,8 +51,8 @@ const ProductsSchema = new Schema({
     required: true,
     default: 0
   },
-  fileProduct: {
-    type: FileProductSchema,
+  image: {
+    type: ImageSchema,
     required: true,
   },
   url_facebook: {

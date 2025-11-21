@@ -1,5 +1,14 @@
 import { Request, Response } from 'express';
 import Products from "../model/Products";
+import { v2 as cloudinary } from "cloudinary";
+import { uploadImage } from "./images.controller";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_KEY,
+  api_secret: process.env.CLOUD_SECRET,
+  secure: true
+});
 
 export type StockListType = {
   color: string;
@@ -8,25 +17,13 @@ export type StockListType = {
   photo_URL: string | '';
 };
 
-export type BufferDataType = {
-  type: 'Buffer';
-  data: number[];
-};
-
-export type FileProductType = {
-  name: string;
-  type: string;
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  buffer: any;
-};
-
 export type ProductType = {
   _id?: string;
   title: string;
   description: string;
   category_id: string;
   price: string;
-  fileProduct: FileProductType;
+  image: ProductImageType;
   url_facebook?: string;
   url_instagram?: string;
   url_tiktok?: string;
@@ -34,6 +31,11 @@ export type ProductType = {
   stocks: StockListType[];
   totalItems?: number;
   totalPrice?: number;
+};
+
+type ProductImageType = {
+  name?: string;
+  folder_path: string;
 };
 
 export const getProductsController = async(request: Request, response: Response) => {
@@ -58,10 +60,19 @@ export const getProductsController = async(request: Request, response: Response)
 export const createProductController = async(request: Request, response: Response) => {
   try {
     const body = request.body;
-    const categoryResponse = await Products.create(body);
+    const file = request.file;
+    const formDetails = JSON.parse(body.formDetails);
+    const formNetworks = JSON.parse(body.formNetworks);
+    const stocks = JSON.parse(body.stocks);
+    const image: ProductImageType = { name: file?.originalname, folder_path: "products" }
+    const formValue = { ...formDetails, ...formNetworks, stocks, image }
+    if (file) {
+      await uploadImage(file);
+    };
+    const categoryResponse = await Products.create(formValue);
     return response.json(categoryResponse);
   } catch(error: any) {
-     return response.status(error.status || 500).json({ error: error.message });
+    return response.status(error.status || 500).json({ error: error.message });
   }
 };
 
@@ -74,4 +85,3 @@ export const deleteProductController = async(request: Request, response: Respons
      return response.status(error.status || 500).json({ error: error.message });
   }
 };
-

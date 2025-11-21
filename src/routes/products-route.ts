@@ -1,8 +1,11 @@
-import { Router } from "express";
+import express from "express";
+import multer from "multer";
 import { createProductController, deleteProductController, getProductsController } from "../controller/products-controller";
 
-export const productsRouter = Router();
+const upload = multer({ storage: multer.memoryStorage() });
+
+export const productsRouter = express.Router();
 
 productsRouter.get('/', getProductsController);
-productsRouter.post('/', createProductController);
+productsRouter.post('/', upload.single("image"), createProductController);
 productsRouter.delete('/:id', deleteProductController); 
