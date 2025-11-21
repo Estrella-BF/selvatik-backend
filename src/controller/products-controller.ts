@@ -67,7 +67,7 @@ export const createProductController = async(request: Request, response: Respons
     const image: ProductImageType = { name: file?.originalname, folder_path: "products" }
     const formValue = { ...formDetails, ...formNetworks, stocks, image }
     if (file) {
-      await uploadImage(file);
+      await uploadImage(file, `products/${formDetails.category_id}`);
     };
     const categoryResponse = await Products.create(formValue);
     return response.json(categoryResponse);

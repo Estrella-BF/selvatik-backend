@@ -9,11 +9,10 @@ import { configurationRouter, reservationsRouter } from "./api/routes/index.js";
 const PORT = process.env.PORT;
 const app = express();
 
-
-// por demo
 import cors from 'cors';
 import { ordersRouter } from './routes/orders-route';
 import { adminRouter } from './routes/admin-route';
+import { imagesRouter } from './routes/images-route';
 
 app.use(cors());
 app.use(json());
@@ -26,6 +25,7 @@ app.use('/admin', adminRouter);
 app.use('/categories', categoriesRouter);
 app.use('/products', productsRouter);
 app.use('/orders', ordersRouter);
+app.use('/images', imagesRouter);
 
 app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
     // Handle the error
