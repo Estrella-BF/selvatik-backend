@@ -18,7 +18,7 @@ export const StockSchema = new Schema({
   },
 });
 
-export const ImageSchema = new Schema({
+const ImageSchema = new Schema({
   name: {
     type: String,
     required: true,

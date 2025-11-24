@@ -3,12 +3,11 @@ import Orders from '../model/Orders';
 import Products from '../model/Products';
 import mongoose from 'mongoose';
 import { StockListType } from './products-controller';
+import { uploadImage } from './images.controller';
 
 export type ReceiptFileType = {
   name: string;
-  type: string;
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  buffer: any;
+  folder_path: string;
 };
 
 export type ProductToBuy = {
@@ -54,8 +53,24 @@ export const getOrdersController = async(request: Request, response: Response) =
 
 export const createOrderController = async(request: Request, response: Response) => {
   try {
-    const body: CustomerPurchaseType = request.body;
-    const {productsToBuy} = body;
+    const body = request.body;
+    const file = request.file;
+    const createOrderFromBody: CustomerPurchaseType = JSON.parse(body.data);
+    const { productsToBuy } = createOrderFromBody;
+
+    // setting file data
+    const today = new Date();
+    const [ day,  month, year ] = [
+      today.getDate(), today.getMonth() + 1, today.getFullYear(), 
+    ];
+    const folder_path = `vouchers/${day}-${month}-${year}`;
+    const createOrderData: CustomerPurchaseType = {
+      ...createOrderFromBody,
+      receiptFile: {
+        name: file?.originalname!,
+        folder_path
+      }
+    };
 
     const updatePromises = productsToBuy.map(async(product) => {
       const newStocks = product.stock.map(item => {
@@ -77,7 +92,10 @@ export const createOrderController = async(request: Request, response: Response)
       return 'updatedProduct';
     });
     await Promise.all(updatePromises);
-    const newOrderResponse = await Orders.create(body);
+    if (file) {
+      await uploadImage(file, folder_path);
+    };
+    const newOrderResponse = await Orders.create(createOrderData);
     return response.status(204).json(newOrderResponse);
   } catch(error: any) {
     return response.status(error.status || 500).json({ error: error.message });

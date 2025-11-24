@@ -1,5 +1,4 @@
 import mongoose, { Schema } from 'mongoose';
-import { FileProductSchema } from './Products';
 
 const ItemsSchema = new Schema({
   color: {
@@ -10,6 +9,19 @@ const ItemsSchema = new Schema({
   quantitySelected: {
     type: Number,
     required: true
+  },
+});
+
+const ReceiptFileSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  folder_path: {
+    type: String,
+    required: true,
+    trim: true,
   },
 });
 
@@ -71,7 +83,7 @@ const Orders = new Schema({
     required: true,
   },
   receiptFile: {
-    type: FileProductSchema,
+    type: ReceiptFileSchema,
     required: true,
   },
   productsToBuy: {

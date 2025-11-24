@@ -4,9 +4,9 @@ import streamifier from "streamifier";
 
 export const getFolderImagesController = async (request: Request, response: Response) => {
   try {
-    const { category_id } = request.query;
+    const { folder_path } = request.query;
     const result = await cloudinary.search
-      .expression(`folder:products/${category_id}`)
+      .expression(`folder:${folder_path}`)
       .max_results(500)
       .execute();
 

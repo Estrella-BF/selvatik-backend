@@ -1,18 +1,15 @@
 import express, { json, NextFunction, Request, Response } from 'express';
 import 'dotenv/config';
 import connectDB from './config/database';
+import cors from 'cors';
 import { categoriesRouter } from './routes/categories-route';
 import { productsRouter } from './routes/products-route';
-
-/* 
-import { configurationRouter, reservationsRouter } from "./api/routes/index.js"; */
-const PORT = process.env.PORT;
-const app = express();
-
-import cors from 'cors';
 import { ordersRouter } from './routes/orders-route';
 import { adminRouter } from './routes/admin-route';
 import { imagesRouter } from './routes/images-route';
+
+const PORT = process.env.PORT;
+const app = express();
 
 app.use(cors());
 app.use(json());
