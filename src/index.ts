@@ -21,7 +21,7 @@ connectDB();
 app.use('/admin', adminRouter);
 app.use('/assets', imagesRouter);
 app.use('/categories', categoriesRouter);
-app.use('/products', productsRouter);
+app.use('/products1', productsRouter);
 app.use('/orders', ordersRouter);
 
 app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
