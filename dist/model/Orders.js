@@ -34,7 +34,6 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const Products_1 = require("./Products");
 const ItemsSchema = new mongoose_1.Schema({
     color: {
         type: String,
@@ -44,6 +43,18 @@ const ItemsSchema = new mongoose_1.Schema({
     quantitySelected: {
         type: Number,
         required: true
+    },
+});
+const ReceiptFileSchema = new mongoose_1.Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    folder_path: {
+        type: String,
+        required: true,
+        trim: true,
     },
 });
 const ProducstsToBuy = new mongoose_1.Schema({
@@ -103,7 +114,7 @@ const Orders = new mongoose_1.Schema({
         required: true,
     },
     receiptFile: {
-        type: Products_1.FileProductSchema,
+        type: ReceiptFileSchema,
         required: true,
     },
     productsToBuy: {

@@ -39,24 +39,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importStar(require("express"));
 require("dotenv/config");
 const database_1 = __importDefault(require("./config/database"));
+const cors_1 = __importDefault(require("cors"));
 const categories_route_1 = require("./routes/categories-route");
 const products_route_1 = require("./routes/products-route");
-/*
-import { configurationRouter, reservationsRouter } from "./api/routes/index.js"; */
-const PORT = process.env.PORT;
-const app = (0, express_1.default)();
-// por demo
-const cors_1 = __importDefault(require("cors"));
 const orders_route_1 = require("./routes/orders-route");
 const admin_route_1 = require("./routes/admin-route");
+const images_route_1 = require("./routes/images-route");
+const PORT = process.env.PORT;
+const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use((0, express_1.json)());
 // Connect to MongoDB
 (0, database_1.default)();
 // ROUTES USER
 app.use('/admin', admin_route_1.adminRouter);
+app.use('/assets', images_route_1.imagesRouter);
 app.use('/categories', categories_route_1.categoriesRouter);
-app.use('/products', products_route_1.productsRouter);
+app.use('/products1', products_route_1.productsRouter);
 app.use('/orders', orders_route_1.ordersRouter);
 app.use((err, _req, res, next) => {
     // Handle the error

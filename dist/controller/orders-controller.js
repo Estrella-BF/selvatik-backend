@@ -7,6 +7,7 @@ exports.updateOrderController = exports.createOrderController = exports.getOrder
 const Orders_1 = __importDefault(require("../model/Orders"));
 const Products_1 = __importDefault(require("../model/Products"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const images_controller_1 = require("./images.controller");
 const getOrdersController = async (request, response) => {
     try {
         const { isPaid, isDelivered } = request.query;
@@ -31,7 +32,22 @@ exports.getOrdersController = getOrdersController;
 const createOrderController = async (request, response) => {
     try {
         const body = request.body;
-        const { productsToBuy } = body;
+        const file = request.file;
+        const createOrderFromBody = JSON.parse(body.data);
+        const { productsToBuy } = createOrderFromBody;
+        // setting file data
+        const today = new Date();
+        const [day, month, year] = [
+            today.getDate(), today.getMonth() + 1, today.getFullYear(),
+        ];
+        const folder_path = `vouchers/${day}-${month}-${year}`;
+        const createOrderData = {
+            ...createOrderFromBody,
+            receiptFile: {
+                name: file?.originalname,
+                folder_path
+            }
+        };
         const updatePromises = productsToBuy.map(async (product) => {
             const newStocks = product.stock.map(item => {
                 const newQuantity = item.quantity - item.quantitySelected;
@@ -51,7 +67,11 @@ const createOrderController = async (request, response) => {
             return 'updatedProduct';
         });
         await Promise.all(updatePromises);
-        const newOrderResponse = await Orders_1.default.create(body);
+        if (file) {
+            await (0, images_controller_1.uploadImage)(file, folder_path);
+        }
+        ;
+        const newOrderResponse = await Orders_1.default.create(createOrderData);
         return response.status(204).json(newOrderResponse);
     }
     catch (error) {

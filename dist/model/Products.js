@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FileProductSchema = exports.StockSchema = void 0;
+exports.StockSchema = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 exports.StockSchema = new mongoose_1.Schema({
     color: {
@@ -46,20 +46,20 @@ exports.StockSchema = new mongoose_1.Schema({
         required: true,
         default: 0
     },
+    photo_URL: {
+        type: String,
+        required: true,
+        trim: true,
+    },
 });
-exports.FileProductSchema = new mongoose_1.Schema({
+const ImageSchema = new mongoose_1.Schema({
     name: {
         type: String,
         required: true,
         trim: true,
     },
-    type: {
+    folder_path: {
         type: String,
-        required: true,
-        trim: true,
-    },
-    buffer: {
-        type: Buffer,
         required: true,
         trim: true,
     },
@@ -84,8 +84,8 @@ const ProductsSchema = new mongoose_1.Schema({
         required: true,
         default: 0
     },
-    fileProduct: {
-        type: exports.FileProductSchema,
+    image: {
+        type: ImageSchema,
         required: true,
     },
     url_facebook: {

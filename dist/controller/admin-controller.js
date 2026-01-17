@@ -10,10 +10,12 @@ const verifyPasswordController = async (request, response) => {
         const { password } = request.body;
         const all = await Admin_1.default.find({});
         const dataResponse = await Admin_1.default.exists({ password });
+        console.log('*** data Response:', dataResponse);
         const valid = !!dataResponse;
         return response.status(200).json({ valid });
     }
     catch (error) {
+        console.log('*** data error:', error);
         return response.status(error.status || 500).json({ error: error.message });
     }
 };
