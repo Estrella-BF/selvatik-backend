@@ -14,7 +14,7 @@ export const getFolderImagesController = async (request: Request, response: Resp
     return response.json(result.resources);
   } catch (err: any) {
     console.log('---ERROR FOLDER IMAGE:', err)
-    return response.status(500).json({ error: err.message });
+    return response.status(500).json({ error: JSON.stringify(err) });
   }
 };
 
