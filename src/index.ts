@@ -19,10 +19,10 @@ connectDB();
 
 // ROUTES USER
 app.use('/admin', adminRouter);
+app.use('/assets', imagesRouter);
 app.use('/categories', categoriesRouter);
 app.use('/products', productsRouter);
 app.use('/orders', ordersRouter);
-app.use('/images', imagesRouter);
 
 app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
     // Handle the error
