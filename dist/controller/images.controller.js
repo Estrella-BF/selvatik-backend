@@ -8,17 +8,15 @@ const cloudinary_1 = require("cloudinary");
 const streamifier_1 = __importDefault(require("streamifier"));
 const getFolderImagesController = async (request, response) => {
     try {
-        /*     const { folder_path } = request.query;
-            console.log('---folder_path:', folder_path)
-            const result = await cloudinary.search
-              .expression(`folder:${folder_path}`)
-              .max_results(500)
-              .execute(); */
-        return response.json('result.resources');
+        const { folder_path } = request.query;
+        const result = await cloudinary_1.v2.search
+            .expression(`folder:${folder_path}`)
+            .max_results(500)
+            .execute();
+        return response.json(result.resources);
     }
     catch (err) {
-        console.log('---ERROR FOLDER IMAGE:', err);
-        return response.status(500).json({ error: JSON.stringify(err) });
+        return response.status(500).json({ error: err.message });
     }
 };
 exports.getFolderImagesController = getFolderImagesController;

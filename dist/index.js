@@ -53,10 +53,10 @@ app.use((0, express_1.json)());
 (0, database_1.default)();
 // ROUTES USER
 app.use('/admin', admin_route_1.adminRouter);
-app.use('/assets', images_route_1.imagesRouter);
 app.use('/categories', categories_route_1.categoriesRouter);
-app.use('/products1', products_route_1.productsRouter);
+app.use('/products', products_route_1.productsRouter);
 app.use('/orders', orders_route_1.ordersRouter);
+app.use('/images', images_route_1.imagesRouter);
 app.use((err, _req, res, next) => {
     // Handle the error
     res.status(err.status || 500).json({ error: err.message });
